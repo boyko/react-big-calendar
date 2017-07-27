@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 
-import dates from './utils/dates';
+// import dates from './utils/dates';
 import { accessor, elementType } from './utils/propTypes';
-import { segStyle, eventSegments, endOfRange, eventLevels } from './utils/eventLevels';
+// import { segStyle, eventSegments, endOfRange, eventLevels } from './utils/eventLevels';
 import BackgroundCells from './BackgroundCells';
 import EventRow from './EventRow';
 import EventEndingRow from './EventEndingRow';
@@ -45,12 +45,21 @@ const propTypes = {
 const defaultProps = {
   minRows: 0,
   maxRows: Infinity,
-}
+};
 
 class DateContentRow extends React.Component {
+  static contextTypes = {
+    localizer: PropTypes.object,
+    dateFns: PropTypes.object,
+    eventFns: PropTypes.object,
+  };
 
   constructor(...args) {
     super(...args);
+
+    this.localizer = this.context.localizer;
+    this.dateFns = this.context.dateFns;
+    this.eventFns = this.context.eventFns;
   }
 
   handleSelectSlot = (slot) => {
@@ -59,42 +68,42 @@ class DateContentRow extends React.Component {
     onSelectSlot(
       range.slice(slot.start, slot.end + 1),
       slot,
-    )
-  }
+    );
+  };
 
   handleShowMore = (slot) => {
     const { range, onShowMore } = this.props;
-    let row = qsa(findDOMNode(this), '.rbc-row-bg')[0]
+    let row = qsa(findDOMNode(this), '.rbc-row-bg')[0];
 
     let cell;
-    if (row) cell = row.children[slot-1]
+    if (row) cell = row.children[slot - 1];
 
     let events = this.segments
       .filter(seg => isSegmentInSlot(seg, slot))
-      .map(seg => seg.event)
+      .map(seg => seg.event);
 
-    onShowMore(events, range[slot-1], cell, slot)
-  }
+    onShowMore(events, range[slot - 1], cell, slot);
+  };
 
   createHeadingRef = r => {
     this.headingRow = r;
-  }
+  };
 
   createEventRef = r => {
     this.eventRow = r;
-  }
+  };
 
   getContainer = () => {
     const { container } = this.props;
-    return container ? container() : findDOMNode(this)
-  }
+    return container ? container() : findDOMNode(this);
+  };
 
   getRowLimit() {
     let eventHeight = getHeight(this.eventRow);
-    let headingHeight = this.headingRow ? getHeight(this.headingRow) : 0
+    let headingHeight = this.headingRow ? getHeight(this.headingRow) : 0;
     let eventSpace = getHeight(findDOMNode(this)) - headingHeight;
 
-    return Math.max(Math.floor(eventSpace / eventHeight), 1)
+    return Math.max(Math.floor(eventSpace / eventHeight), 1);
   }
 
   renderHeadingCell = (date, index) => {
@@ -103,13 +112,13 @@ class DateContentRow extends React.Component {
     return renderHeader({
       date,
       key: `header_${index}`,
-      style: segStyle(1, range.length),
+      style: this.eventFns.segStyle(1, range.length),
       className: cn(
         'rbc-date-cell',
-        dates.eq(date, this.props.now, 'day') && 'rbc-now', // FIXME use props.now
-      )
-    })
-  }
+        this.dateFns.eq(date, this.props.now, 'day') && 'rbc-now', // FIXME use props.now
+      ),
+    });
+  };
 
   renderDummy = () => {
     let { className, range, renderHeader } = this.props;
@@ -122,7 +131,7 @@ class DateContentRow extends React.Component {
             </div>
           )}
           <div className='rbc-row' ref={this.createEventRef}>
-            <div className='rbc-row-segment' style={segStyle(1, range.length)}>
+            <div className='rbc-row-segment' style={this.eventFns.segStyle(1, range.length)}>
               <div className='rbc-event'>
                 <div className='rbc-event-content'>&nbsp;</div>
               </div>
@@ -130,8 +139,8 @@ class DateContentRow extends React.Component {
           </div>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   render() {
     const {
@@ -156,15 +165,15 @@ class DateContentRow extends React.Component {
     if (renderForMeasure)
       return this.renderDummy();
 
-    let { first, last } = endOfRange(range);
+    let { first, last } = this.eventFns.endOfRange(range);
 
-    let segments = this.segments = events.map(evt => eventSegments(evt, first, last, {
+    let segments = this.segments = events.map(evt => this.eventFns.eventSegments(evt, first, last, {
       startAccessor,
-      endAccessor
-    }))
+      endAccessor,
+    }));
 
-    let { levels, extra } = eventLevels(segments, Math.max(maxRows - 1, 1));
-    while (levels.length < minRows ) levels.push([])
+    let { levels, extra } = this.eventFns.eventLevels(segments, Math.max(maxRows - 1, 1));
+    while (levels.length < minRows) levels.push([]);
 
     return (
       <div className={className}>
@@ -197,7 +206,7 @@ class DateContentRow extends React.Component {
               eventWrapperComponent={eventWrapperComponent}
               startAccessor={startAccessor}
               endAccessor={endAccessor}
-            />
+            />,
           )}
           {!!extra.length && (
             <EventEndingRow
@@ -219,4 +228,4 @@ class DateContentRow extends React.Component {
 DateContentRow.propTypes = propTypes;
 DateContentRow.defaultProps = defaultProps;
 
-export default DateContentRow
+export default DateContentRow;

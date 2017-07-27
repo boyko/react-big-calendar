@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const { rules, loaders, plugins, stats } = require('webpack-atoms');
 
 const browsers = ['last 2 versions', 'ie >= 10'];
@@ -39,5 +40,6 @@ module.exports = {
   },
   plugins: [
     plugins.extractText(),
+    new BundleAnalyzerPlugin(),
   ],
 };

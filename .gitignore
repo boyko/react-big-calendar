@@ -30,3 +30,5 @@ node_modules
 
 # Webstorm ide files
 .idea
+/examples/bundle.js
+/examples/bundle.js.map

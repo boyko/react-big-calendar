@@ -4,10 +4,10 @@ import Intro from './Intro.md';
 import cn from 'classnames';
 import { render } from 'react-dom';
 
-import localizer from 'react-big-calendar/lib/localizers/globalize';
-import globalize from 'globalize';
+// import localizer from 'react-big-calendar/lib/localizers/globalize';
+// import globalize from 'globalize';
 
-localizer(globalize);
+// localizer(globalize);
 
 import 'react-big-calendar/lib/less/styles.less';
 import './styles.less';
@@ -26,13 +26,13 @@ const Example = React.createClass({
     let selected = this.state.selected;
     let Current = {
       basic: require('./demos/basic').default,
-      selectable: require('./demos/selectable').default,
-      cultures: require('./demos/cultures').default,
-      popup: require('./demos/popup').default,
-      rendering: require('./demos/rendering').default,
-      customView: require('./demos/customView').default,
-      timeslots: require('./demos/timeslots').default,
-      dnd: require('./demos/dnd').default,
+      // selectable: require('./demos/selectable').default,
+      // cultures: require('./demos/cultures').default,
+      // popup: require('./demos/popup').default,
+      // rendering: require('./demos/rendering').default,
+      // customView: require('./demos/customView').default,
+      // timeslots: require('./demos/timeslots').default,
+      // dnd: require('./demos/dnd').default,
     }[selected];
 
     return (
@@ -62,29 +62,29 @@ const Example = React.createClass({
               <li className={cn({active: selected === 'basic' })}>
                 <a href='#' onClick={this.select.bind(null, 'basic')}>Basic</a>
               </li>
-              <li className={cn({active: selected === 'selectable' })}>
-                <a href='#' onClick={this.select.bind(null, 'selectable')}>Selectable</a>
-              </li>
-              <li className={cn({active: selected === 'cultures' })}>
-                <a href='#' onClick={this.select.bind(null, 'cultures')}>I18n and Locales</a>
-              </li>
-              <li className={cn({active: selected === 'popup' })}>
-                <a href='#' onClick={this.select.bind(null, 'popup')}>Popup</a>
-              </li>
-              <li className={cn({active: selected === 'timeslots' })}>
-                <a href='#' onClick={this.select.bind(null, 'timeslots')}>Timeslots</a>
-              </li>
-              <li className={cn({active: selected === 'rendering' })}>
-                <a href='#' onClick={this.select.bind(null, 'rendering')}>Custom rendering</a>
-              </li>
+              {/*<li className={cn({active: selected === 'selectable' })}>*/}
+                {/*<a href='#' onClick={this.select.bind(null, 'selectable')}>Selectable</a>*/}
+              {/*</li>*/}
+              {/*<li className={cn({active: selected === 'cultures' })}>*/}
+                {/*<a href='#' onClick={this.select.bind(null, 'cultures')}>I18n and Locales</a>*/}
+              {/*</li>*/}
+              {/*<li className={cn({active: selected === 'popup' })}>*/}
+                {/*<a href='#' onClick={this.select.bind(null, 'popup')}>Popup</a>*/}
+              {/*</li>*/}
+              {/*<li className={cn({active: selected === 'timeslots' })}>*/}
+                {/*<a href='#' onClick={this.select.bind(null, 'timeslots')}>Timeslots</a>*/}
+              {/*</li>*/}
+              {/*<li className={cn({active: selected === 'rendering' })}>*/}
+                {/*<a href='#' onClick={this.select.bind(null, 'rendering')}>Custom rendering</a>*/}
+              {/*</li>*/}
               {/* temporary hide link to documentation
               <li className={cn({active: selected === 'customView' })}>
                 <a href='#' onClick={this.select.bind(null, 'customView')}>Custom View</a>
               </li>
               */}
-              <li className={cn({active: selected === 'dnd' })}>
-                <a href='#' onClick={this.select.bind(null, 'dnd')}>Drag and Drop</a>
-              </li>
+              {/*<li className={cn({active: selected === 'dnd' })}>*/}
+                {/*<a href='#' onClick={this.select.bind(null, 'dnd')}>Drag and Drop</a>*/}
+              {/*</li>*/}
             </ul>
           </header>
           <div className='example'>

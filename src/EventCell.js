@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cn from 'classnames';
-import dates from './utils/dates';
+// import dates from './utils/dates';
 import { accessor, elementType } from './utils/propTypes';
 import { accessor as get } from './utils/accessors';
 
@@ -19,13 +19,24 @@ let propTypes = {
 
   eventComponent: elementType,
   eventWrapperComponent: elementType.isRequired,
-  onSelect: PropTypes.func
-}
+  onSelect: PropTypes.func,
+};
 
 class EventCell extends React.Component {
+  static contextTypes = {
+    eventFns: PropTypes.object,
+    dateFns: PropTypes.object,
+  };
+
+  constructor(props, context) {
+    super(props, context);
+    this.dateFns = this.context.dateFns;
+    this.eventFns = this.context.eventFns;
+  }
+
   render() {
     let {
-        className
+      className
       , event
       , selected
       , eventPropGetter
@@ -35,14 +46,15 @@ class EventCell extends React.Component {
       , onSelect
       , eventComponent: Event
       , eventWrapperComponent: EventWrapper
-      , ...props } = this.props;
+      , ...props
+    } = this.props;
 
     let title = get(event, titleAccessor)
       , end = get(event, endAccessor)
       , start = get(event, startAccessor)
       , isAllDay = get(event, props.allDayAccessor)
-      , continuesPrior = dates.lt(start, slotStart, 'day')
-      , continuesAfter = dates.gt(end, slotEnd, 'day')
+      , continuesPrior = this.dateFns.lt(start, slotStart, 'day')
+      , continuesAfter = this.dateFns.gt(end, slotEnd, 'day');
 
     if (eventPropGetter)
       var { style, className: xClassName } = eventPropGetter(event, start, end, selected);
@@ -50,18 +62,18 @@ class EventCell extends React.Component {
     return (
       <EventWrapper event={event}>
         <div
-          style={{...props.style, ...style}}
+          style={{ ...props.style, ...style }}
           className={cn('rbc-event', className, xClassName, {
             'rbc-selected': selected,
-            'rbc-event-allday': isAllDay || dates.diff(start, dates.ceil(end, 'day'), 'day') > 1,
+            'rbc-event-allday': isAllDay || this.dateFns.diff(start, this.dateFns.ceil(end, 'day'), 'day') > 1,
             'rbc-event-continues-prior': continuesPrior,
-            'rbc-event-continues-after': continuesAfter
+            'rbc-event-continues-after': continuesAfter,
           })}
           onClick={(e) => onSelect(event, e)}
         >
           <div className='rbc-event-content' title={title}>
-            { Event
-              ? <Event event={event} title={title}/>
+            {Event
+              ? <Event event={event} title={title} />
               : title
             }
           </div>
@@ -73,4 +85,4 @@ class EventCell extends React.Component {
 
 EventCell.propTypes = propTypes;
 
-export default EventCell
+export default EventCell;
