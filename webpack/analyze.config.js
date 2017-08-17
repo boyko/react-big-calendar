@@ -40,6 +40,7 @@ module.exports = {
   },
   plugins: [
     plugins.extractText(),
+    new webpack.optimize.UglifyJsPlugin(),
     new BundleAnalyzerPlugin(),
   ],
 };
