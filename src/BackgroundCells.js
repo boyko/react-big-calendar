@@ -26,6 +26,34 @@ class BackgroundCells extends React.Component {
     ),
     rtl: PropTypes.bool,
     type: PropTypes.string,
+    css: PropTypes.shape({
+      row_bg: PropTypes.string,
+      day_bg: PropTypes.string,
+      selected_cell: PropTypes.string,
+      today: PropTypes.string,
+      span_range1: PropTypes.string,
+      span_range2: PropTypes.string,
+      span_range3: PropTypes.string,
+      span_range4: PropTypes.string,
+      span_range5: PropTypes.string,
+      span_range6: PropTypes.string,
+      span_range7: PropTypes.string,
+    }),
+  };
+  static defaultProps = {
+    css: {
+      row_bg: 'rbc-row-bg',
+      day_bg: 'rbc-day-bg',
+      selected_cell: 'rbc-selected-cell',
+      today: 'rbc-today',
+      span_range1: 'span_range_1',
+      span_range2: 'span_range_2',
+      span_range3: 'span_range_3',
+      span_range4: 'span_range_4',
+      span_range5: 'span_range_5',
+      span_range6: 'span_range_6',
+      span_range7: 'span_range_7',
+    },
   };
 
   static contextTypes = {
@@ -62,21 +90,22 @@ class BackgroundCells extends React.Component {
   }
 
   render() {
-    let { range, cellWrapperComponent: Wrapper } = this.props;
+    let { range, cellWrapperComponent: Wrapper, css } = this.props;
     let { selecting, startIdx, endIdx } = this.state;
 
     return (
-      <div className='rbc-row-bg'>
+      <div className={css.row_bg}>
         {range.map((date, index) => {
           let selected = selecting && index >= startIdx && index <= endIdx;
           return (
             <Wrapper key={index} value={date}>
               <div
-                style={this.eventFns.segStyle(1, range.length)}
+                // style={this.eventFns.segStyle(1, range.length)}
                 className={cn(
-                  'rbc-day-bg',
-                  selected && 'rbc-selected-cell',
-                  this.dateFns.isToday(date) && 'rbc-today',
+                  css.day_bg,
+                  css.span_range1,
+                  selected && css.selected_cell,
+                  this.dateFns.isToday(date) && css.today,
                 )}
               />
             </Wrapper>

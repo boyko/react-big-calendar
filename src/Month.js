@@ -73,11 +73,81 @@ let propTypes = {
       y: PropTypes.number,
     }),
   ]),
+  css: PropTypes.shape({
+    month_view: PropTypes.string,
+    month_row: PropTypes.string,
+    header: PropTypes.string,
+    row: PropTypes.string,
+    month_header: PropTypes.string,
+    date_content_row: PropTypes.shape({
+      date_cell: PropTypes.string,
+      now: PropTypes.string,
+      row_content: PropTypes.string,
+      row: PropTypes.string,
+      row_segment: PropTypes.string,
+      event: PropTypes.string,
+      event_content: PropTypes.string,
+      background_cells: PropTypes.shape({
+        row_bg: PropTypes.string,
+        day_bg: PropTypes.string,
+        selected_cell: PropTypes.string,
+        today: PropTypes.string,
+        span_range1: PropTypes.string,
+        span_range2: PropTypes.string,
+        span_range3: PropTypes.string,
+        span_range4: PropTypes.string,
+        span_range5: PropTypes.string,
+        span_range6: PropTypes.string,
+        span_range7: PropTypes.string,
+      }),
+    }),
+    date_heading: PropTypes.shape({
+      off_range: PropTypes.string,
+      current: PropTypes.string,
+    }),
+  }),
+};
+
+const defaultProps = {
+  css: {
+    month_view: 'rbc-month-view',
+    month_row: 'rbc-month-row',
+    header: 'rbc-header',
+    row: 'rbc-row',
+    month_header: 'rbc-month-header',
+    date_content_row: {
+      date_cell: 'rbc-date-cell',
+      now: 'rbc-now',
+      row_content: 'rbc-row-content',
+      row: 'rbc-row',
+      row_segment: 'rbc-row-segment',
+      event: 'rbc-event',
+      event_content: 'rbc-event-content',
+      background_cells: {
+        row_bg: 'rbc-row-bg',
+        day_bg: 'rbc-day-bg',
+        selected_cell: 'rbc-selected-cell',
+        today: 'rbc-today',
+        span_range1: 'span_range_1',
+        span_range2: 'span_range_2',
+        span_range3: 'span_range_3',
+        span_range4: 'span_range_4',
+        span_range5: 'span_range_5',
+        span_range6: 'span_range_6',
+        span_range7: 'span_range_7',
+      },
+    },
+    date_heading: {
+      off_range: 'rbc-off-range',
+      current: 'rbc-current',
+    },
+  },
 };
 
 class MonthView extends React.Component {
   static displayName = 'MonthView';
   static propTypes = propTypes;
+  static defaultProps = defaultProps;
   static contextTypes = {
     localizer: PropTypes.object,
     dateFns: PropTypes.object,
@@ -144,15 +214,15 @@ class MonthView extends React.Component {
   };
 
   render() {
-    let { date, culture, weekdayFormat, className } = this.props,
+    let { date, culture, weekdayFormat, className, css } = this.props,
       month = this.dateFns.visibleDays(date, culture),
       weeks = chunk(month, 7);
 
     this._weekCount = weeks.length;
 
     return (
-      <div className={cn('rbc-month-view', className)}>
-        <div className="rbc-row rbc-month-header">
+      <div className={cn(css.month_view, className)}>
+        <div className={`${css.row} ${css.month_header}`}>
           {this.renderHeaders(weeks[0], weekdayFormat, culture)}
         </div>
         {weeks.map((week, idx) => this.renderWeek(week, idx))}
@@ -173,6 +243,7 @@ class MonthView extends React.Component {
       messages,
       selected,
       now,
+      css,
     } = this.props;
 
     const { needLimitMeasure, rowLimit } = this.state;
@@ -185,7 +256,8 @@ class MonthView extends React.Component {
         key={weekIdx}
         ref={weekIdx === 0 ? 'slotRow' : undefined}
         container={this.getContainer}
-        className="rbc-month-row"
+        className={css.month_row}
+        css={css.date_content_row}
         now={now}
         range={week}
         events={eventsForWeek}
@@ -216,6 +288,7 @@ class MonthView extends React.Component {
       getDrilldownView,
       dateFormat,
       culture,
+      css,
     } = this.props;
 
     let isOffRange = this.dateFns.month(date) !== this.dateFns.month(currentDate);
@@ -228,8 +301,8 @@ class MonthView extends React.Component {
         {...props}
         className={cn(
           className,
-          isOffRange && 'rbc-off-range',
-          isCurrent && 'rbc-current',
+          isOffRange && css.date_heading.off_range,
+          isCurrent && css.date_heading.current,
         )}
       >
         {drilldownView
@@ -247,13 +320,20 @@ class MonthView extends React.Component {
   };
 
   renderHeaders(row, format, culture) {
+    const { css } = this.props;
     let first = row[0];
     let last = row[row.length - 1];
     let HeaderComponent = this.props.components.header || Header;
     const localizer = this.localizer;
 
     return this.dateFns.range(first, last, 'day').map((day, idx) => (
-      <div key={'header_' + idx} className="rbc-header" style={this.eventFns.segStyle(1, 7)}>
+      <div
+        key={'header_' + idx}
+        className={cn(
+          css.header,
+          css.span_range1,
+        )}
+      >
         <HeaderComponent
           date={day}
           label={localizer.format(day, format, culture)}

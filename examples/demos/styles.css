@@ -1,0 +1,80 @@
+
+.month_view {
+    margin-top: 0;
+    font-weight: 400;
+}
+
+.week_row {
+    display: block;
+    width: 100%;
+}
+
+.month_header {
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    float: left;
+    width: 14.28571%;
+}
+
+.span_range_1 {
+    flex-basis: 14.28571%;
+    width: 14.28571%;
+    float: left;
+    min-height: 1rem;
+}
+
+.span_range_2 {
+    flex-basis: 28.57143%;
+    width: 28.57143%;
+    float: left;
+    min-height: 1rem;
+}
+
+.span_range_3 {
+    flex-basis: 42.85714%;
+    width: 42.85714%;
+    float: left;
+    min-height: 1rem;
+}
+
+.span_range_4 {
+    flex-basis: 57.14286%;
+    width: 57.14286%;
+    float: left;
+    min-height: 1rem;
+}
+
+.span_range_5 {
+    flex-basis: 71.42857%;
+    width: 71.42857%;
+    float: left;
+    min-height: 1rem;
+}
+
+.span_range_6 {
+    flex-basis: 85.71429%;
+    width: 85.71429%;
+    float: left;
+    min-height: 1rem;
+}
+
+.span_range_7 {
+    flex-basis: 100%;
+    width: 100%;
+    float: left;
+    min-height: 1rem;
+}
+
+.month_row {
+    width: 100%;
+    min-height: 8rem;
+    border-bottom: 1px solid;
+}
+
+.date_cell {
+    float: left;
+    width: 14.28571%;
+}

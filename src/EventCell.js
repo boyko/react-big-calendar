@@ -20,9 +20,30 @@ let propTypes = {
   eventComponent: elementType,
   eventWrapperComponent: elementType.isRequired,
   onSelect: PropTypes.func,
+  css: PropTypes.shape({
+    event: PropTypes.string,
+    selected: PropTypes.string,
+    allday: PropTypes.string,
+    continues_prior: PropTypes.string,
+    continues_after: PropTypes.string,
+    content: PropTypes.string,
+  }),
+};
+
+const defaultProps = {
+  css: {
+    event: 'rbc-event',
+    selected: 'rbc-selected',
+    allday: 'rbc-event-allday',
+    continues_prior: 'rbc-event-continues-prior',
+    continues_after: 'rbc-event-continues-after',
+    content: 'rbc-event-content',
+  },
 };
 
 class EventCell extends React.Component {
+  static propTypes = propTypes;
+  static defaultProps = defaultProps;
   static contextTypes = {
     eventFns: PropTypes.object,
     dateFns: PropTypes.object,
@@ -36,17 +57,20 @@ class EventCell extends React.Component {
 
   render() {
     let {
-      className
-      , event
-      , selected
-      , eventPropGetter
-      , startAccessor, endAccessor, titleAccessor
-      , slotStart
-      , slotEnd
-      , onSelect
-      , eventComponent: Event
-      , eventWrapperComponent: EventWrapper
-      , ...props
+      className,
+      event,
+      selected,
+      eventPropGetter,
+      startAccessor,
+      endAccessor,
+      titleAccessor,
+      slotStart,
+      slotEnd,
+      onSelect,
+      eventComponent: Event,
+      eventWrapperComponent: EventWrapper,
+      css,
+      ...props
     } = this.props;
 
     let title = get(event, titleAccessor)
@@ -63,15 +87,15 @@ class EventCell extends React.Component {
       <EventWrapper event={event}>
         <div
           style={{ ...props.style, ...style }}
-          className={cn('rbc-event', className, xClassName, {
-            'rbc-selected': selected,
-            'rbc-event-allday': isAllDay || this.dateFns.diff(start, this.dateFns.ceil(end, 'day'), 'day') > 1,
-            'rbc-event-continues-prior': continuesPrior,
-            'rbc-event-continues-after': continuesAfter,
+          className={cn(css.event, className, xClassName, {
+            [css.selected]: selected,
+            [css.allday]: isAllDay || this.dateFns.diff(start, this.dateFns.ceil(end, 'day'), 'day') > 1,
+            [css.continues_prior]: continuesPrior,
+            [css.continues_after]: continuesAfter,
           })}
           onClick={(e) => onSelect(event, e)}
         >
-          <div className='rbc-event-content' title={title}>
+          <div className={css.content} title={title}>
             {Event
               ? <Event event={event} title={title} />
               : title
