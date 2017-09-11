@@ -27,48 +27,13 @@ export default function (eventFns) {
       eventComponent: elementType,
       eventWrapperComponent: elementType.isRequired,
       onSelect: PropTypes.func,
-      css: PropTypes.shape({
-        row: PropTypes.string,
-        eventCell: PropTypes.shape({
-          event: PropTypes.string,
-          selected: PropTypes.string,
-          allday: PropTypes.string,
-          continues_prior: PropTypes.string,
-          continues_after: PropTypes.string,
-          content: PropTypes.string,
-          span_range1: PropTypes.string,
-          span_range2: PropTypes.string,
-          span_range3: PropTypes.string,
-          span_range4: PropTypes.string,
-          span_range5: PropTypes.string,
-          span_range6: PropTypes.string,
-          span_range7: PropTypes.string,
-        }),
-      }),
+      css: PropTypes.object,
     },
 
     defaultProps: {
       segments: [],
       selected: {},
       slots: 7,
-      css: {
-        row: 'rbc-row-segment',
-        eventCell: {
-          event: 'rbc-event',
-          selected: 'rbc-selected',
-          allday: 'rbc-event-allday',
-          continues_prior: 'rbc-event-continues-prior',
-          continues_after: 'rbc-event-continues-after',
-          content: 'rbc-event-content',
-          span_range1: 'span_range_1',
-          span_range2: 'span_range_2',
-          span_range3: 'span_range_3',
-          span_range4: 'span_range_4',
-          span_range5: 'span_range_5',
-          span_range6: 'span_range_6',
-          span_range7: 'span_range_7',
-        },
-      },
     },
 
     renderEvent(props, event) {
@@ -87,6 +52,7 @@ export default function (eventFns) {
       return (
         <EventCell
           event={event}
+          css={props.css}
           eventWrapperComponent={eventWrapperComponent}
           eventPropGetter={eventPropGetter}
           onSelect={onSelect}

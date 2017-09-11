@@ -5,35 +5,10 @@ import EventRowMixin from './EventRowMixin';
 class EventRow extends React.Component {
   static propTypes = {
     segments: PropTypes.array,
-    css: PropTypes.shape({
-      row: PropTypes.string,
-      event: PropTypes.string,
-      selected: PropTypes.string,
-      allday: PropTypes.string,
-      continues_prior: PropTypes.string,
-      continues_after: PropTypes.string,
-      content: PropTypes.string,
-      span_range1: PropTypes.string,
-      span_range2: PropTypes.string,
-      span_range3: PropTypes.string,
-      span_range4: PropTypes.string,
-      span_range5: PropTypes.string,
-      span_range6: PropTypes.string,
-      span_range7: PropTypes.string,
-    }),
+    css: PropTypes.object,
     ...EventRowMixin.propTypes,
   };
   static defaultProps = {
-    css: {
-      row: 'rbc-row',
-      span_range1: 'span_range_1',
-      span_range2: 'span_range_2',
-      span_range3: 'span_range_3',
-      span_range4: 'span_range_4',
-      span_range5: 'span_range_5',
-      span_range6: 'span_range_6',
-      span_range7: 'span_range_7',
-    },
     ...EventRowMixin.defaultProps,
   };
   static contextTypes = {

@@ -40,68 +40,13 @@ const propTypes = {
   eventWrapperComponent: elementType.isRequired,
   minRows: PropTypes.number.isRequired,
   maxRows: PropTypes.number.isRequired,
-  css: PropTypes.shape({
-    date_cell: PropTypes.string,
-    now: PropTypes.string,
-    row_content: PropTypes.string,
-    row: PropTypes.string,
-    row_segment: PropTypes.string,
-    event: PropTypes.string,
-    event_content: PropTypes.string,
-    background_cells: PropTypes.shape({
-      row_bg: PropTypes.string,
-      day_bg: PropTypes.string,
-      selected_cell: PropTypes.string,
-      today: PropTypes.string,
-    }),
-    event_row: PropTypes.shape({
-      row: PropTypes.string,
-      span_range1: PropTypes.string,
-      span_range2: PropTypes.string,
-      span_range3: PropTypes.string,
-      span_range4: PropTypes.string,
-      span_range5: PropTypes.string,
-      span_range6: PropTypes.string,
-      span_range7: PropTypes.string,
-    }),
-  }),
+  css: PropTypes.object,
 };
 
 const defaultProps = {
   minRows: 0,
   maxRows: Infinity,
-  css: {
-    date_cell: 'rbc-date-cell',
-    now: 'rbc-now',
-    row_content: 'rbc-row-content',
-    row: 'rbc-row',
-    row_segment: 'rbc-row-segment',
-    event: 'rbc-event',
-    event_content: 'rbc-event-content',
-    background_cells: {
-      row_bg: 'rbc-row-bg',
-      day_bg: 'rbc-day-bg',
-      selected_cell: 'rbc-selected-cell',
-      today: 'rbc-today',
-      span_range1: 'span_range_1',
-      span_range2: 'span_range_2',
-      span_range3: 'span_range_3',
-      span_range4: 'span_range_4',
-      span_range5: 'span_range_5',
-      span_range6: 'span_range_6',
-      span_range7: 'span_range_7',
-    },
-    event_row: {
-      row: 'rbc-row',
-      span_range1: 'span_range_1',
-      span_range2: 'span_range_2',
-      span_range3: 'span_range_3',
-      span_range4: 'span_range_4',
-      span_range5: 'span_range_5',
-      span_range6: 'span_range_6',
-      span_range7: 'span_range_7',
-    },
-  },
+  css: {},
 };
 
 class DateContentRow extends React.Component {
@@ -268,7 +213,7 @@ class DateContentRow extends React.Component {
           {levels.map((segs, idx) =>
             <EventRow
               {...props}
-              css={css.event_row}
+              css={css}
               key={idx}
               start={first}
               end={last}
@@ -283,7 +228,7 @@ class DateContentRow extends React.Component {
           {!!extra.length && (
             <EventEndingRow
               {...props}
-              css={css.event_row}
+              css={css}
               start={first}
               end={last}
               segments={extra}

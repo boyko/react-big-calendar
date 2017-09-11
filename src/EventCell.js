@@ -20,30 +20,12 @@ let propTypes = {
   eventComponent: elementType,
   eventWrapperComponent: elementType.isRequired,
   onSelect: PropTypes.func,
-  css: PropTypes.shape({
-    event: PropTypes.string,
-    selected: PropTypes.string,
-    allday: PropTypes.string,
-    continues_prior: PropTypes.string,
-    continues_after: PropTypes.string,
-    content: PropTypes.string,
-  }),
+  css: PropTypes.object,
 };
 
-const defaultProps = {
-  css: {
-    event: 'rbc-event',
-    selected: 'rbc-selected',
-    allday: 'rbc-event-allday',
-    continues_prior: 'rbc-event-continues-prior',
-    continues_after: 'rbc-event-continues-after',
-    content: 'rbc-event-content',
-  },
-};
 
 class EventCell extends React.Component {
   static propTypes = propTypes;
-  static defaultProps = defaultProps;
   static contextTypes = {
     eventFns: PropTypes.object,
     dateFns: PropTypes.object,
@@ -88,10 +70,10 @@ class EventCell extends React.Component {
         <div
           style={{ ...props.style, ...style }}
           className={cn(css.event, className, xClassName, {
-            [css.selected]: selected,
-            [css.allday]: isAllDay || this.dateFns.diff(start, this.dateFns.ceil(end, 'day'), 'day') > 1,
-            [css.continues_prior]: continuesPrior,
-            [css.continues_after]: continuesAfter,
+            [css.event_selected]: selected,
+            [css.event_allday]: isAllDay || this.dateFns.diff(start, this.dateFns.ceil(end, 'day'), 'day') > 1,
+            [css.event_continues_prior]: continuesPrior,
+            [css.event_continues_after]: continuesAfter,
           })}
           onClick={(e) => onSelect(event, e)}
         >
