@@ -206,37 +206,39 @@ class DateContentRow extends React.Component {
 
         <div className={css.row_content}>
           {renderHeader && (
-            <div className={css.row} ref={this.createHeadingRef}>
+            <div className={`${css.row} ${css.week_header}`} ref={this.createHeadingRef}>
               {range.map(this.renderHeadingCell)}
             </div>
           )}
-          {levels.map((segs, idx) =>
-            <EventRow
-              {...props}
-              css={css}
-              key={idx}
-              start={first}
-              end={last}
-              segments={segs}
-              slots={range.length}
-              eventComponent={eventComponent}
-              eventWrapperComponent={eventWrapperComponent}
-              startAccessor={startAccessor}
-              endAccessor={endAccessor}
-            />,
-          )}
-          {!!extra.length && (
-            <EventEndingRow
-              {...props}
-              css={css}
-              start={first}
-              end={last}
-              segments={extra}
-              onShowMore={this.handleShowMore}
-              eventComponent={eventComponent}
-              eventWrapperComponent={eventWrapperComponent}
-            />
-          )}
+          <div className={css.week_content}>
+            {levels.map((segs, idx) =>
+              <EventRow
+                {...props}
+                css={css}
+                key={idx}
+                start={first}
+                end={last}
+                segments={segs}
+                slots={range.length}
+                eventComponent={eventComponent}
+                eventWrapperComponent={eventWrapperComponent}
+                startAccessor={startAccessor}
+                endAccessor={endAccessor}
+              />,
+            )}
+            {!!extra.length && (
+              <EventEndingRow
+                {...props}
+                css={css}
+                start={first}
+                end={last}
+                segments={extra}
+                onShowMore={this.handleShowMore}
+                eventComponent={eventComponent}
+                eventWrapperComponent={eventWrapperComponent}
+              />
+            )}
+          </div>
         </div>
       </div>
     );
