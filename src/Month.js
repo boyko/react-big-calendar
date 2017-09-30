@@ -146,8 +146,8 @@ class MonthView extends React.Component {
     this._bgRows = [];
     this._pendingSelection = [];
     this.state = {
-      rowLimit: 5,
-      needLimitMeasure: true,
+      rowLimit: 3,
+      needLimitMeasure: false,
     };
     this.localizer = this.context.localizer;
     this.dateFns = this.context.dateFns;
